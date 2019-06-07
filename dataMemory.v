@@ -11,17 +11,20 @@ module DataMemory (
     
     writeData,
     dataOut,
-    block
+    block0, 
+    block1, 
+    block2, 
+    block3
     );
 
-    parameter WORD = 32, LENGTH = 32768, ADDRESSL = 15, BLOCKSIZE = 4;
+    parameter WORD = 32, LENGTH = 32768, ADDRESSL = 15;
     input [ADDRESSL-1:0]address, address0, address1, address2, address3;
     input [WORD-1:0]writeData;
     input memWrite,
     memRead,
     clk;
     output [WORD-1:0]dataOut;
-    output [WORD-1:0]block[BLOCKSIZE-1:0]
+    output [WORD-1:0]block0, block1, block2, block3;
     reg [WORD-1:0]memory[LENGTH-1:0];
 
     integer i;
@@ -42,9 +45,9 @@ module DataMemory (
             memory[address] <= writeData;
     end
     assign dataOut = memRead ? memory[address] : {WORD*{1'bz}};
-    assign block[0] = memRead ? mamory[address0] : {WORD*{1'bz}};
-    assign block[1] = memRead ? mamory[address1] : {WORD*{1'bz}};
-    assign block[2] = memRead ? mamory[address2] : {WORD*{1'bz}};
-    assign block[3] = memRead ? mamory[address3] : {WORD*{1'bz}};
+    assign block0 = memRead ? memory[address0] : {WORD*{1'bz}};
+    assign block1 = memRead ? memory[address1] : {WORD*{1'bz}};
+    assign block2 = memRead ? memory[address2] : {WORD*{1'bz}};
+    assign block3 = memRead ? memory[address3] : {WORD*{1'bz}};
                       
 endmodule

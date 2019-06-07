@@ -11,7 +11,7 @@ module cacheCU(
     selOut
 );
 input clk, rst, hit;
-output reg cRead, cwrite, rRead, rWrite, selOut;
+output reg cRead, cWrite, rRead, rWrite, selOut;
 
 always @(posedge clk, posedge rst)begin
     if(rst) begin

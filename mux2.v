@@ -5,7 +5,7 @@ module mux2 (
     inp2,
     out
     );
-    parameter n;
+    parameter n = 32;
     input sel;
     input [n-1:0]inp1, inp2;
     output [n-1:0]out;

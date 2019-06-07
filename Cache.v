@@ -10,6 +10,7 @@ module Cache (
     dataOutCache,
     dataRtoC,
     hit,
+    hits,
     clk,
     rst
     );
@@ -20,12 +21,12 @@ module Cache (
 
     output [WORD-1:0]dataOutCache;
     output hit;
+    output [14:0] hits;
 
     integer i;
     reg [WORD-1:0]cachMemory[LENGTH-1:0];
     reg [TAG-1:0]tagMemory[LENGTH-1:0];
     reg [VALID-1:0]validMemory[LENGTH-1:0];
-    reg hits;
     wire [TAG-1:0]tagIn;
     wire [ADDRESSL-1:0]adrInCache
     integer i;

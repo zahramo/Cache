@@ -1,5 +1,6 @@
 module DMDCASHE(
-    clk,
+    clk1,
+    clk2,
     rst,
     address,
 
@@ -9,7 +10,7 @@ module DMDCASHE(
     req
 );
 parameter ADDRESSL = 15, WORD = 32, BLOCKSIZE = 4;
-input clk, rst, req;
+input clk1, clk2, rst, req;
 input[ADDRESSL-1:0]address;
 output[ADDRESSL-1:0]numOfHits;
 output[WORD-1:0]dataOut;
@@ -35,7 +36,7 @@ Cache cache(
     .block3(block3),
     .hit(hit),
     .hits(numOfHits), 
-    .clk(clk),
+    .clk(clk1),
     .rst(rst)
 );
 
@@ -48,7 +49,7 @@ adrMaker adrmaker(
 );
 
 cacheCU CU(
-    .clk(clk),
+    .clk(clk1),
     .rst(rst),
     .hit(hit),
     .req(req),
@@ -69,7 +70,7 @@ mux2 m(
 );
 
 DataMemory RAM(
-    .clk(clk),
+    .clk(clk2),
     .address(address),
     .address0(adr0),
     .address1(adr1),

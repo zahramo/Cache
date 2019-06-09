@@ -30,16 +30,10 @@ module DataMemory (
     reg [WORD-1:0]memory[LENGTH-1:0];
 
     integer i;
-    reg [WORD-1:0]allData[2*LENGTH-1:0];
-    initial begin
-        // $readmemb("datas.txt", allData);
+    initial begin  
         for (i = 0; i < LENGTH; i = i + 1) begin
             memory[i] = i;
         end
-        // for (i = 0; i < 2*LENGTH; i = i + 1) begin
-        //     memory[allData[i][WORD-1:0]] = allData[i+1];
-        //     i=i+1;
-        // end
     end
 
     always @(posedge clk) begin

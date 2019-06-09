@@ -1,8 +1,9 @@
 `timescale 1ps/1ps
 module TestBench2 ();
-    parameter CLK = 100;
+    parameter CLK = 100, CLK2 = 200;
     parameter WORD = 32, ADDRESSL = 15;
     reg clk = 0;
+    reg clk2 = 0;
     reg rst = 0;
     reg req;
     reg [ADDRESSL-1:0]adr;
@@ -10,7 +11,8 @@ module TestBench2 ();
     wire [WORD-1:0]dataOut;
     wire ready;
     DMDCASHE UUT(
-    .clk(clk),
+    .clk1(clk),
+    .clk2(clk2),
     .rst(rst),
     .address(adr),
     .dataOut(dataOut),
@@ -20,6 +22,7 @@ module TestBench2 ();
     );
     integer i;
     always #CLK clk = ~clk;
+    always #CLK2 clk2 = ~clk2;
     always @(posedge ready) begin
         req = 1;
         adr = 1024 + i;
@@ -33,8 +36,6 @@ module TestBench2 ();
         i = 0;
         #(2*CLK) rst = 1;
         #(2*CLK) rst = 0;
-        // #(38000*CLK)
-        // $stop;
     end
 
 

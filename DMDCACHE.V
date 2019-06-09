@@ -4,16 +4,18 @@ module DMDCASHE(
     address,
 
     dataOut,
-    numOfHits
+    numOfHits,
+    ready,
+    req
 );
 parameter ADDRESSL = 15, WORD = 32, BLOCKSIZE = 4;
-input clk, rst;
+input clk, rst, req;
 input[ADDRESSL-1:0]address;
 output[ADDRESSL-1:0]numOfHits;
 output[WORD-1:0]dataOut;
-
+output ready;
 wire[ADDRESSL-1:0]adr0, adr1, adr2, adr3;
-wire hit, cRead, cWrite, rRead, rWrite, selOut;
+wire hit, cRead, cWrite, rRead, rWrite, selOut, memReady;
 wire[WORD-1:0]dataOutRAM, dataOutCache;
 wire[WORD-1:0]block0, block1, block2, block3;
 wire[14:0]hits;
@@ -32,7 +34,7 @@ Cache cache(
     .block2(block2), 
     .block3(block3),
     .hit(hit),
-    .hits(hits), 
+    .hits(numOfHits), 
     .clk(clk),
     .rst(rst)
 );
@@ -49,12 +51,14 @@ cacheCU CU(
     .clk(clk),
     .rst(rst),
     .hit(hit),
-
+    .req(req),
     .cRead(cRead),
     .cWrite(cWrite),
     .rRead(rRead),
     .rWrite(rWrite),
-    .selOut(selOut)
+    .selOut(selOut),
+    .memReady(memReady),
+    .ready(ready)
 );
 
 mux2 m(
@@ -67,10 +71,10 @@ mux2 m(
 DataMemory RAM(
     .clk(clk),
     .address(address),
-    .address0(address0),
-    .address1(address1),
-    .address2(address2),
-    .address3(address3),
+    .address0(adr0),
+    .address1(adr1),
+    .address2(adr2),
+    .address3(adr3),
     .memWrite(rWrite),
     .memRead(rRead),
     .writeData(),
@@ -78,7 +82,8 @@ DataMemory RAM(
     .block0(block0), 
     .block1(block1), 
     .block2(block2), 
-    .block3(block3)
+    .block3(block3),
+    .memReady(memReady)
 );
 
 endmodule

@@ -56,11 +56,13 @@ module Cache (
                 tagMemory[adr3[ADDRESSL-1:0]] = adr3[ADDRESSL+TAG-1:ADDRESSL+TAG-4];
                 validMemory[adr3[ADDRESSL-1:0]] = 1'b1;
             end
-            if (hit)
-                hits = hits + 1;
+            // if (hit)
+            //     hits = hits + 1;
         end
     end
-
+    always @(address) begin
+        if(hit) hits = hits + 1;
+    end
     assign tagIn = address[ADDRESSL+TAG-1:ADDRESSL+TAG-4];
     assign adrInCache = address[ADDRESSL-1:0];
     assign hit = validMemory[adrInCache] && tagIn == tagMemory[adrInCache] ? 1 : 0;
